@@ -1,0 +1,12 @@
+[MESSAGE CONTROL]
+
+disable=missing-docstring,bad-continuation,invalid-name,bad-whitespace
+
+[FORMAT]
+
+# String used as indentation unit. This is usually "    " (4 spaces) or "\t" (1
+# tab).
+indent-string='    '
+
+# Number of spaces of indent required inside a hanging  or continued line.
+indent-after-paren=4
