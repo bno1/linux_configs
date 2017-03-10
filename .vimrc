@@ -1,5 +1,7 @@
 syntax on
+filetype on
 filetype plugin on
+set encoding=utf-8
 
 colorscheme desert
 
@@ -16,18 +18,16 @@ set hlsearch
 set smartcase
 set backspace=2
 set backspace=indent,eol,start
-filetype on
 set nu
 set completeopt=longest,menuone
 "set textwidth=80
-
-au BufNewFile,BufRead *.tex set filetype=tex
 
 if has('gui_running')
 	set guifont=Monospace\ 8
 endif
 
-set list listchars=tab:»\ ,extends:»,precedes:«,trail:·
+set list
+set listchars=tab:»\ ,extends:»,precedes:«,trail:·
 set statusline=%<%f\ %y%h%m%r%=%-24.(%o\ %l/%L\ %c%V%)\ %P
 set laststatus=2
 set wildmenu
@@ -45,27 +45,30 @@ nnoremap <ESC>* <c-w>>
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 autocmd FileType haskell setlocal et
+au BufNewFile,BufRead *.tex set filetype=tex
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
+
+"""""""""""""
+" Syntastic "
+"""""""""""""
+" Use passive mode for haskell
 let g:syntastic_mode_map = {
 	\ "mode": "active",
 	\ "passive_filetypes": ["haskell"] }
 
+"""""""""""""
+" EasyAlign "
+"""""""""""""
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
 
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-autocmd BufWritePost *.hs GhcModCheckAndLintAsync
-
-let g:haskellmode_completion_ghc = 0
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
-
+" / align for C++ comments
 let g:easy_align_delimiters = {
 \ '/': {
 \     'pattern':         '//\+\|/\*\|\*/',
@@ -73,5 +76,23 @@ let g:easy_align_delimiters = {
 \     'ignore_groups':   ['!Comment']
 \   }
 \ }
+
+
+""""""""""
+" GhcMod "
+""""""""""
+" Lint on write
+autocmd BufWritePost *.hs GhcModCheckAndLintAsync
+
+"""""""""""
+" NecoGhc "
+"""""""""""
+autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+
+
+"""""""
+" YCM "
+"""""""
+"let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
