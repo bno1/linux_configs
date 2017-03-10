@@ -3,20 +3,27 @@
 SCRIPTPATH=`realpath $0`
 SRCPATH=`dirname "$SCRIPTPATH"`
 
-echo $SRCPATH
+echo "Repo path: $SRCPATH"
+
+echo "Installing configs"
 
 mkdir -p ~/.config/htop/
-ln -fiTns $SRCPATH/.config/htop/htoprc ~/.config/htop/htoprc
+ln -fiTnsv $SRCPATH/.config/htop/htoprc ~/.config/htop/htoprc
 
-ln -fiTns $SRCPATH/.vimrc ~/.vimrc
-ln -fiTns $SRCPATH/.bashrc ~/.bashrc
-ln -fiTns $SRCPATH/.tmux.conf ~/.tmux.conf
-ln -fiTns $SRCPATH/.gdbinit ~/.gdbinit
-ln -fiTns $SRCPATH/.pylintrc ~/.pylintrc
+ln -fiTnsv $SRCPATH/.vimrc ~/.vimrc
+ln -fiTnsv $SRCPATH/.bashrc ~/.bashrc
+ln -fiTnsv $SRCPATH/.tmux.conf ~/.tmux.conf
+ln -fiTnsv $SRCPATH/.gdbinit ~/.gdbinit
+ln -fiTnsv $SRCPATH/.pylintrc ~/.pylintrc
 
-rm -rfI ~/.vim
-ln -fiTns $SRCPATH/.vim ~/.vim
+echo "Replacing ~/.vim"
+rm -rfIv ~/.vim
+ln -fiTnsv $SRCPATH/.vim ~/.vim
 
-rm -rfI ~/.tmux
-ln -fiTns $SRCPATH/.tmux ~/.tmux
+echo "Replacing ~/.tmux"
+rm -rfIv ~/.tmux
+ln -fiTnsv $SRCPATH/.tmux ~/.tmux
+
+echo
+echo "Installing tmux plugins"
 ~/.tmux/plugins/tpm/bin/install_plugins
