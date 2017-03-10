@@ -15,6 +15,7 @@ ln -fiTnsv $SRCPATH/.bashrc ~/.bashrc
 ln -fiTnsv $SRCPATH/.tmux.conf ~/.tmux.conf
 ln -fiTnsv $SRCPATH/.gdbinit ~/.gdbinit
 ln -fiTnsv $SRCPATH/.pylintrc ~/.pylintrc
+ln -fiTnsv $SRCPATH/.Xresources ~/.Xresources
 
 echo "Replacing ~/.vim"
 rm -rfIv ~/.vim
