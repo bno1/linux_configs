@@ -28,11 +28,11 @@ cd linux_configs && git submodule update --init --recursive
 Then you have to build `.vim/bundle/vimproc.vim/` and `.vim/bundle/YouCompleteMe/`.
 Check their READMEs for instructions on how to do that.
 
-After bulding them run:
+After building them run:
 ```bash
 ./setup.sh
 ```
-This will generate the symbolic links to this repo. It will prompt you before each
-change.
+This will generate the symbolic links to this repo for the configurations.
+It will prompt you before each change.
 
 Keep the repo on your filesystem.
