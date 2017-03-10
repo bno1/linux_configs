@@ -1,22 +1,3 @@
-# Linux configs
-
-This repo contains my personal configuration files for Linux.
-
-Vim plugins:
-  * Pathogen
-  * Syntastic
-  * YouCompleteMe
-  * EasyAlign
-  * GhcMod
-  * Neco-ghc
-  * Vimproc (dependecy of GhcMod)
-  * Thrift (syntax highlight)
-
-Tmux plugins:
-  * TPM
-  * Tmux-sensible
-  * Tmux-yank
-
 # Installation
 
 Open a terminal and `cd` into your desired parent folder for this repo, then run:
@@ -36,3 +17,23 @@ This will generate the symbolic links to this repo for the configurations.
 It will prompt you before each change.
 
 Keep the repo on your filesystem.
+
+# Description
+
+This repo contains my personal configuration files for Linux.
+I will update it as I see fit.
+
+Vim plugins:
+  * Pathogen
+  * Syntastic
+  * YouCompleteMe
+  * EasyAlign
+  * GhcMod
+  * Neco-ghc
+  * Vimproc (dependecy of GhcMod)
+  * Thrift (syntax highlight)
+
+Tmux plugins:
+  * TPM
+  * Tmux-sensible
+  * Tmux-yank
