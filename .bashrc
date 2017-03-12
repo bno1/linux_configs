@@ -107,3 +107,4 @@ if ! shopt -oq posix; then
 fi
 
 export PAGER=less
+export EDITOR=vim
