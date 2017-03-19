@@ -32,6 +32,7 @@ Vim plugins:
   * Neco-ghc
   * Vimproc (dependecy of GhcMod)
   * Thrift (syntax highlight)
+  * vim-localvimrc
 
 Tmux plugins:
   * TPM

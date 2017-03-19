@@ -5,7 +5,6 @@ set encoding=utf-8
 
 colorscheme desert
 
-set exrc
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
