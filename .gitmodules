@@ -1,36 +1,48 @@
-[submodule ".vim/bundle/syntastic"]
-	path = .vim/bundle/syntastic
-	url = https://github.com/vim-syntastic/syntastic.git
-[submodule ".vim/bundle/neco-ghc"]
-	path = .vim/bundle/neco-ghc
-	url = https://github.com/eagletmt/neco-ghc.git
-[submodule ".vim/bundle/vimproc.vim"]
-	path = .vim/bundle/vimproc.vim
-	url = https://github.com/Shougo/vimproc.vim.git
-[submodule ".vim/bundle/ghcmod-vim"]
-	path = .vim/bundle/ghcmod-vim
-	url = https://github.com/eagletmt/ghcmod-vim.git
-[submodule ".vim/bundle/vim-easy-align"]
-	path = .vim/bundle/vim-easy-align
-	url = https://github.com/junegunn/vim-easy-align.git
-[submodule ".vim/bundle/YouCompleteMe"]
-	path = .vim/bundle/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe.git
-[submodule ".vim/bundle/vim-pathogen"]
-	path = .vim/bundle/vim-pathogen
-	url = https://github.com/tpope/vim-pathogen.git
-[submodule ".vim/bundle/thrift.vim"]
-	path = .vim/bundle/thrift.vim
-	url = https://github.com/solarnz/thrift.vim.git
 [submodule ".tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
-	url = https://github.com/tmux-plugins/tpm
+	url = https://github.com/tmux-plugins/tpm.git
+	branch = master
 [submodule ".tmux/plugins/tmux-sensible"]
 	path = .tmux/plugins/tmux-sensible
 	url = https://github.com/tmux-plugins/tmux-sensible.git
+	branch = master
 [submodule ".tmux/plugins/tmux-yank"]
 	path = .tmux/plugins/tmux-yank
 	url = https://github.com/tmux-plugins/tmux-yank.git
+	branch = master
+[submodule ".vim/bundle/vimproc.vim"]
+	path = .vim/bundle/vimproc.vim
+	url = https://github.com/Shougo/vimproc.vim.git
+	branch = master
+[submodule ".vim/bundle/vim-pathogen"]
+	path = .vim/bundle/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen.git
+	branch = master
 [submodule ".vim/bundle/vim-localvimrc"]
 	path = .vim/bundle/vim-localvimrc
 	url = https://github.com/embear/vim-localvimrc.git
+	branch = master
+[submodule ".vim/bundle/vim-easy-align"]
+	path = .vim/bundle/vim-easy-align
+	url = https://github.com/junegunn/vim-easy-align.git
+	branch = master
+[submodule ".vim/bundle/thrift.vim"]
+	path = .vim/bundle/thrift.vim
+	url = https://github.com/solarnz/thrift.vim.git
+	branch = master
+[submodule ".vim/bundle/syntastic"]
+	path = .vim/bundle/syntastic
+	url = https://github.com/vim-syntastic/syntastic.git
+	branch = master
+[submodule ".vim/bundle/neco-ghc"]
+	path = .vim/bundle/neco-ghc
+	url = https://github.com/eagletmt/neco-ghc.git
+	branch = master
+[submodule ".vim/bundle/ghcmod-vim"]
+	path = .vim/bundle/ghcmod-vim
+	url = https://github.com/eagletmt/ghcmod-vim.git
+	branch = master
+[submodule ".vim/bundle/YouCompleteMe"]
+	path = .vim/bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
+	branch = master
