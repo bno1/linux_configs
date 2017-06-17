@@ -33,6 +33,8 @@ Vim plugins:
   * Vimproc (dependecy of GhcMod)
   * Thrift (syntax highlight)
   * vim-localvimrc
+  * ctrlp
+  * vim-buffergator
 
 Tmux plugins:
   * TPM

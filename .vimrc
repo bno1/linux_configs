@@ -45,6 +45,8 @@ nnoremap <ESC>* <c-w>>
 nnoremap <silent> <C-l> :nohl<CR><C-l>
 
 autocmd FileType haskell setlocal et
+autocmd FileType cabal setlocal et
+autocmd FileType sql setlocal et
 au BufNewFile,BufRead *.tex set filetype=tex
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
