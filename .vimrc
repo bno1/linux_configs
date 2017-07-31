@@ -61,6 +61,8 @@ let g:syntastic_mode_map = {
 	\ "mode": "active",
 	\ "passive_filetypes": ["haskell"] }
 
+let g:syntastic_python_checkers = ['python', 'flake8']
+
 """""""""""""
 " EasyAlign "
 """""""""""""
@@ -100,3 +102,5 @@ let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 let g:ycm_confirm_extra_conf = 0
+
+nnoremap <leader>jd :YcmCompleter GoTo<CR>
