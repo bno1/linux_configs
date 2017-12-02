@@ -63,6 +63,8 @@ xterm*|rxvt*)
     ;;
 esac
 
+alias less='less -SN'
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -74,7 +76,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 
-    alias less='less -r'
+    alias less='less -RSN'
 fi
 
 # colored GCC warnings and errors
