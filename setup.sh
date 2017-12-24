@@ -11,6 +11,8 @@ mkdir -p ~/.config/htop/
 ln -fiTnsv $SRCPATH/.config/htop/htoprc ~/.config/htop/htoprc
 
 ln -fiTnsv $SRCPATH/.vimrc ~/.vimrc
+ln -fiTnsv $SRCPATH/.profile ~/.profile
+ln -fiTnsv $SRCPATH/.bash_profile ~/.bash_profile
 ln -fiTnsv $SRCPATH/.bashrc ~/.bashrc
 ln -fiTnsv $SRCPATH/.tmux.conf ~/.tmux.conf
 ln -fiTnsv $SRCPATH/.gdbinit ~/.gdbinit
