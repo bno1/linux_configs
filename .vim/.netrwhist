@@ -1,7 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/home/bno1/uni/licenta/locker/locker-common'
-let g:netrw_dirhist_2='/home/bno1/uni/licenta/locker/locker-client/src/Locker/Client'
-let g:netrw_dirhist_3='/home/bno1/uni/licenta/locker/locker-common'
-let g:netrw_dirhist_4='/home/bno1/uni/licenta/locker/locker-server'
-let g:netrw_dirhist_5='/home/bno1/uni/licenta/locker/locker-server/src'
