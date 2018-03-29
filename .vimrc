@@ -53,12 +53,12 @@ runtime autoload/vim-plug/plug.vim
 call plug#begin('~/.vim/plugged')
 
 Plug 'vim-syntastic/syntastic'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'embear/vim-localvimrc'
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --system-libclang --system-boost'}
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --system-boost'}
 
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'lervag/vimtex', {'for': 'tex'}
