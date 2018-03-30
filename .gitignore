@@ -1,2 +1,3 @@
 .tmux/local.conf
 .vim/plugged
+.vim/.netrwhist
