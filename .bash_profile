@@ -4,4 +4,3 @@
 
 [[ -f ~/.profile ]] && . ~/.profile
 [[ -f ~/.bashrc ]] && . ~/.bashrc
-export GOPATH=$HOME/gocode
