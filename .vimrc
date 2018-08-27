@@ -1,3 +1,5 @@
+set nocompatible
+
 syntax on
 filetype on
 filetype plugin on
@@ -11,6 +13,7 @@ set softtabstop=4
 set colorcolumn=81
 set smartindent
 set autoindent
+set expandtab
 set noshowmatch
 set showcmd
 set incsearch
@@ -23,7 +26,7 @@ set completeopt=longest,menuone
 "set textwidth=80
 
 if has('gui_running')
-	set guifont=Monospace\ 8
+    set guifont=Monospace\ 8
 endif
 
 set list
@@ -64,6 +67,7 @@ Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
 Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Initialize plugin system
 call plug#end()
@@ -73,8 +77,8 @@ call plug#end()
 """""""""""""
 " Use passive mode for haskell
 let g:syntastic_mode_map = {
-	\ "mode": "active",
-	\ "passive_filetypes": ["haskell"] }
+    \ "mode": "active",
+    \ "passive_filetypes": ["haskell"] }
 
 let g:syntastic_python_checkers = ['python', 'flake8']
 
@@ -101,7 +105,7 @@ let g:easy_align_delimiters = {
 " GhcMod "
 """"""""""
 " Lint on write
-autocmd BufWritePost *.hs GhcModCheckAndLintAsync
+" autocmd BufWritePost *.hs GhcModCheckAndLintAsync
 
 """""""""""
 " NecoGhc "
