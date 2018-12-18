@@ -34,6 +34,7 @@ set listchars=tab:»\ ,extends:»,precedes:«,trail:·
 set statusline=%<%f\ %y%h%m%r%=%-24.(%o\ %l/%L\ %c%V%)\ %P
 set laststatus=2
 set wildmenu
+set wildmode=longest,list
 
 nnoremap <C-Up> <c-w>k
 nnoremap <C-Down> <c-w>j
@@ -68,6 +69,7 @@ Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
 Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'racer-rust/vim-racer'
 
 " Initialize plugin system
 call plug#end()
