@@ -5,7 +5,7 @@ case $- in
       *) return;;
 esac
 
-if [ -x /usr/bin/tmux ] && [ -z ${TMUX} ]; then
+if ! [[ "$(tty)" =~ /dev/tty ]] && [ -x /usr/bin/tmux ] && [ -z "${TMUX}" ]; then
 	exec /usr/bin/tmux
 fi
 
@@ -64,6 +64,8 @@ xterm*|rxvt*)
 esac
 
 alias less='less -SN'
+alias ssh_dontcare='ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
+alias scp_dontcare='scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then

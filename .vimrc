@@ -62,7 +62,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'embear/vim-localvimrc'
 Plug 'jeetsukumaran/vim-buffergator'
 Plug 'Shougo/vimproc.vim', {'do': 'make'}
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --system-boost'}
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --system-boost --system-libclang --ninja'}
 
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'lervag/vimtex', {'for': 'tex'}
@@ -70,6 +70,7 @@ Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
 Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'racer-rust/vim-racer'
+Plug 'rust-lang/rust.vim'
 
 " Initialize plugin system
 call plug#end()
