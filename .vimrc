@@ -36,6 +36,9 @@ set laststatus=2
 set wildmenu
 set wildmode=longest,list
 
+let maplocalleader = "\\"
+let no_ocaml_maps=1
+
 nnoremap <C-Up> <c-w>k
 nnoremap <C-Down> <c-w>j
 nnoremap <C-Left> <c-w>h
@@ -71,6 +74,8 @@ Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
+Plug 'thaerkh/vim-indentguides'
+"Plug 'nathanaelkane/vim-indent-guides'
 
 " Initialize plugin system
 call plug#end()
@@ -84,6 +89,7 @@ let g:syntastic_mode_map = {
     \ "passive_filetypes": ["haskell"] }
 
 let g:syntastic_python_checkers = ['python', 'flake8']
+let g:syntastic_ocaml_checkers = ['merlin']
 
 """""""""""""
 " EasyAlign "
