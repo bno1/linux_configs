@@ -69,13 +69,14 @@ Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --system-b
 
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'lervag/vimtex', {'for': 'tex'}
-Plug 'eagletmt/neco-ghc', {'for': 'haskell'}
-Plug 'eagletmt/ghcmod-vim', {'for': 'haskell'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
 Plug 'thaerkh/vim-indentguides'
-"Plug 'nathanaelkane/vim-indent-guides'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " Initialize plugin system
 call plug#end()
@@ -110,17 +111,11 @@ let g:easy_align_delimiters = {
 \ }
 
 
-""""""""""
-" GhcMod "
-""""""""""
-" Lint on write
-" autocmd BufWritePost *.hs GhcModCheckAndLintAsync
-
-"""""""""""
-" NecoGhc "
-"""""""""""
-let g:haskellmode_completion_ghc = 0
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
+"""""""""""""""""""
+" LanguangeClient "
+"""""""""""""""""""
+let g:LanguageClient_serverCommands = { 'haskell': ['hie-wrapper'] }
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 
 
 """""""
