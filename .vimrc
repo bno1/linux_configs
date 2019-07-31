@@ -77,6 +77,7 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
     \ }
+Plug 'junegunn/fzf'
 
 " Initialize plugin system
 call plug#end()
