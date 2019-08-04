@@ -47,6 +47,8 @@ nnoremap <ESC>+ <c-w>+
 nnoremap <ESC>- <c-w>-
 nnoremap <ESC>/ <c-w><
 nnoremap <ESC>* <c-w>>
+nnoremap <C-k> :cn<CR>
+nnoremap <C-j> :cp<CR>
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
