@@ -1,0 +1,24 @@
+{
+    "languageserver": {
+        "ccls": {
+            "command": "ccls",
+            "filetypes": ["c", "cpp", "objc", "objcpp"],
+            "initializationOptions": {
+                "completion": {"detailedLabel": false}
+            }
+        },
+        "haskell": {
+            "command": "hie-wrapper",
+            "filetypes": [
+                "hs",
+                "lhs",
+                "haskell"
+            ],
+            "initializationOptions": {
+                "languageServerHaskell": {
+                    "hlintOn": true
+                }
+            }
+        }
+    }
+}

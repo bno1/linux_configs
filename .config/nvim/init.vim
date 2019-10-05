@@ -1,11 +1,12 @@
 set nocompatible
+set termguicolors
 
 syntax on
 filetype on
 filetype plugin on
 set encoding=utf-8
 
-colorscheme desert
+colorscheme evening
 
 set signcolumn=auto
 set tabstop=4
@@ -57,7 +58,7 @@ nnoremap <silent> <C-l> :nohl<CR><C-l>
 au BufNewFile,BufRead *.tex set filetype=tex
 
 runtime autoload/vim-plug/plug.vim
-call plug#begin('~/.vim/plugged')
+call plug#begin(stdpath('data') . '/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-syntastic/syntastic'
@@ -122,3 +123,8 @@ let g:easy_align_delimiters = {
 \     'ignore_groups':   ['!Comment']
 \   }
 \ }
+
+
+let g:localvimrc_whitelist=[
+    \ '/home/alex/uni/disertatie-master/verifast/src',
+    \ ]

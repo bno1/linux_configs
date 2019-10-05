@@ -13,3 +13,6 @@
 [submodule ".vim/autoload/vim-plug"]
 	path = .vim/autoload/vim-plug
 	url = https://github.com/junegunn/vim-plug
+[submodule ".config/nvim/autoload/vim-plug"]
+	path = .config/nvim/autoload/vim-plug
+	url = git@github.com:junegunn/vim-plug.git
