@@ -30,6 +30,9 @@ if has('gui_running')
     set guifont=Monospace\ 8
 endif
 
+hi Pmenu ctermbg=darkgray guibg=#0f0f0f
+hi PmenuSel ctermbg=lightgray guibg=#303030
+
 set list
 set listchars=tab:»\ ,extends:»,precedes:«,trail:·
 set statusline=%<%f\ %y%h%m%r%=%-24.(%o\ %l/%L\ %c%V%)\ %P
@@ -77,12 +80,14 @@ Plug 'junegunn/fzf'
 " Initialize plugin system
 call plug#end()
 
-autocmd CursorHold * silent call CocActionAsync('highlight')
+"autocmd CursorHold * silent call CocActionAsync('highlight')
 nnoremap <F5> <Plug>(coc-codeaction)
 nmap <leader>gt <Plug>(coc-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gd <Plug>(coc-declaration)
 nmap <leader>gf <Plug>(coc-references)
+nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>k :call CocAction('doHover')<CR>
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
