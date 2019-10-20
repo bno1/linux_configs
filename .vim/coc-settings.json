@@ -19,6 +19,12 @@
                     "hlintOn": true
                 }
             }
+        },
+        "ocaml": {
+            "module": "/usr/bin/ocaml-language-server",
+            "args": ["--node-ipc"],
+            "filetypes": ["ocaml", "reason"]
+        }
         }
     }
 }

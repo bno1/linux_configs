@@ -21,8 +21,8 @@
             }
         },
         "ocaml": {
-            "command": "ocaml-language-server",
-            "args": ["--stdio"],
+            "module": "/usr/bin/ocaml-language-server",
+            "args": ["--node-ipc"],
             "filetypes": ["ocaml", "reason"]
         }
     }
