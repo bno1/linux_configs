@@ -26,6 +26,7 @@ set backspace=indent,eol,start
 set nu
 set completeopt=longest,menuone
 "set textwidth=80
+set nofixendofline
 
 if has('gui_running')
     set guifont=Monospace\ 8
@@ -89,6 +90,7 @@ nmap <leader>gd <Plug>(coc-declaration)
 nmap <leader>gf <Plug>(coc-references)
 nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>k :call CocAction('doHover')<CR>
+nmap <leader>rn <Plug>(coc-rename)
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"

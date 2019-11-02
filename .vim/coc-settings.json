@@ -1,19 +1,20 @@
 {
     "languageserver": {
-        "ccls": {
-            "command": "ccls",
-            "filetypes": ["c", "cpp", "objc", "objcpp"],
-            "initializationOptions": {
-                "completion": {"detailedLabel": false}
-            }
+        //"ccls": {
+        //    "command": "ccls",
+        //    "filetypes": ["c", "cpp", "objc", "objcpp"],
+        //    "initializationOptions": {
+        //        "completion": {"detailedLabel": false}
+        //    }
+        //},
+        "clangd": {
+            "command": "clangd",
+            "args": ["--background-index"],
+            "filetypes": ["c", "cpp", "objc", "objcpp"]
         },
         "haskell": {
             "command": "hie-wrapper",
-            "filetypes": [
-                "hs",
-                "lhs",
-                "haskell"
-            ],
+            "filetypes": ["hs", "lhs", "haskell"],
             "initializationOptions": {
                 "languageServerHaskell": {
                     "hlintOn": true
@@ -24,7 +25,64 @@
             "module": "/usr/bin/ocaml-language-server",
             "args": ["--node-ipc"],
             "filetypes": ["ocaml", "reason"]
-        }
+        },
+        "python": {
+            "command": "python",
+            "args": [
+                "-mpyls"
+            ],
+            "filetypes": ["python"],
+            "settings": {
+                "pyls": {
+                    "enable": true,
+                    "commandPath": "",
+                    "configurationSources": [
+                        "pycodestyle"
+                    ],
+                    "plugins": {
+                        "jedi_completion": {
+                            "enabled": true
+                        },
+                        "jedi_hover": {
+                            "enabled": true
+                        },
+                        "jedi_references": {
+                            "enabled": true
+                        },
+                        "jedi_signature_help": {
+                            "enabled": true
+                        },
+                        "jedi_symbols": {
+                            "enabled": true,
+                            "all_scopes": true
+                        },
+                        "mccabe": {
+                            "enabled": true,
+                            "threshold": 15
+                        },
+                        "preload": {
+                            "enabled": true
+                        },
+                        "pycodestyle": {
+                            "enabled": true
+                        },
+                        "pydocstyle": {
+                            "enabled": false,
+                            "match": "(?!test_).*\\.py",
+                            "matchDir": "[^\\.].*"
+                        },
+                        "pyflakes": {
+                            "enabled": true
+                        },
+                        "rope_completion": {
+                            "enabled": true
+                        },
+                        "yapf": {
+                            "enabled": true
+                        }
+                    }
+                }
+            }
         }
     }
 }
