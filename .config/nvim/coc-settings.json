@@ -9,7 +9,8 @@
         //},
         "clangd": {
             "command": "clangd",
-            "args": ["--background-index"],
+            "args": ["--background-index", "--clang-tidy", "--header-insertion=never",
+                   "--suggest-missing-includes", "--completion-style=detailed"],
             "filetypes": ["c", "cpp", "objc", "objcpp"]
         },
         "haskell": {
