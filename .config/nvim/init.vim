@@ -78,6 +78,8 @@ Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
 Plug 'thaerkh/vim-indentguides'
 Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'liuchengxu/vista.vim'
 
 " Initialize plugin system
 call plug#end()
@@ -130,3 +132,19 @@ let g:easy_align_delimiters = {
 \     'ignore_groups':   ['!Comment']
 \   }
 \ }
+
+
+"""""""""
+" Vista "
+"""""""""
+let g:vista_default_executive = 'coc'
+let g:vista_fzf_preview = ['right:50%']
+
+" Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
+let g:vista#renderer#enable_icon = 0
+
+function! NearestMethodOrFunction() abort
+  return get(b:, 'vista_nearest_method_or_function', '')
+endfunction
+
+set statusline+=%{NearestMethodOrFunction()}
