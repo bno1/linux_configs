@@ -11,7 +11,7 @@ set signcolumn=auto
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
-set colorcolumn=81
+set colorcolumn=80
 set smartindent
 set autoindent
 set expandtab
