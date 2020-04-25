@@ -74,7 +74,6 @@ Plug 'jeetsukumaran/vim-buffergator'
 Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'racer-rust/vim-racer'
 Plug 'rust-lang/rust.vim'
 Plug 'thaerkh/vim-indentguides'
 Plug 'junegunn/fzf'
@@ -113,6 +112,7 @@ let g:syntastic_python_checkers = ['python', 'flake8']
 let g:syntastic_ocaml_checkers = ['merlin']
 let g:syntastic_c_checkers = []
 let g:syntastic_cpp_checkers = []
+let g:syntastic_rust_checkers = []
 
 
 """""""""""""
@@ -148,3 +148,9 @@ function! NearestMethodOrFunction() abort
 endfunction
 
 set statusline+=%{NearestMethodOrFunction()}
+
+
+""""""""""
+" vim-go "
+""""""""""
+let g:go_gopls_enabled = 0

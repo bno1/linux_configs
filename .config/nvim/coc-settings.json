@@ -32,6 +32,26 @@
             "args": ["--stdio"],
             "filetypes": ["typescript"]
         },
+        "rls": {
+            "command": "/usr/bin/rls",
+            "trace.server": "verbose",
+            "filetypes": ["rust"],
+            "settings": {
+                "rust": {
+                    "racer_completion": true
+                }
+            }
+        },
+        "golang": {
+            "command": "gopls",
+            "disableWorkspaceFolders": true,
+            "filetypes": ["go"],
+            "settings": {
+                "gopls": {
+                    "completeUnimported": true
+                }
+            }
+        },
         "python": {
             "command": "python",
             "args": [
