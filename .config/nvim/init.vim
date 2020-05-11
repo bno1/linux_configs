@@ -79,6 +79,7 @@ Plug 'thaerkh/vim-indentguides'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
+Plug 'kevinoid/vim-jsonc'
 
 " Initialize plugin system
 call plug#end()
