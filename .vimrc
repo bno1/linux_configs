@@ -36,7 +36,7 @@ hi PmenuSel ctermbg=lightgray guibg=#303030
 
 set list
 set listchars=tab:»\ ,extends:»,precedes:«,trail:·
-set statusline=%<%f\ %y%h%m%r%=%-24.(%o\ %l/%L\ %c%V%)\ %P
+set statusline=%<%f\ %y%h%m%r\ %{NearestMethodOrFunction()}%=%-24.(%o\ %l/%L\ %c%V%)\ %P
 set laststatus=2
 set wildmenu
 set wildmode=longest,list
@@ -139,6 +139,7 @@ let g:easy_align_delimiters = {
 """""""""
 let g:vista_default_executive = 'coc'
 let g:vista_fzf_preview = ['right:50%']
+let g:vista_stay_on_open = 0
 
 " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
 let g:vista#renderer#enable_icon = 0
@@ -147,7 +148,7 @@ function! NearestMethodOrFunction() abort
   return get(b:, 'vista_nearest_method_or_function', '')
 endfunction
 
-set statusline+=%{NearestMethodOrFunction()}
+nmap <F8> :Vista<CR>
 
 
 """"""""""
