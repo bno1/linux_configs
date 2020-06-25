@@ -26,6 +26,7 @@ set nu
 set completeopt=longest,menuone
 "set textwidth=80
 set nofixendofline
+set updatetime=300
 
 if has('gui_running')
     set guifont=Monospace\ 8
@@ -36,7 +37,7 @@ hi PmenuSel ctermbg=lightgray guibg=#303030
 
 set list
 set listchars=tab:»\ ,extends:»,precedes:«,trail:·
-set statusline=%<%f\ %y%h%m%r\ %{NearestMethodOrFunction()}%=%-24.(%o\ %l/%L\ %c%V%)\ %P
+set statusline=%<%f\ %y%h%m%r\ %{coc#status()}%{get(b:,'coc_current_function','')}%=%-24.(%o\ %l/%L\ %c%V%)\ %P
 set laststatus=2
 set wildmenu
 set wildmode=longest,list
@@ -83,13 +84,15 @@ Plug 'kevinoid/vim-jsonc'
 " Initialize plugin system
 call plug#end()
 
-"autocmd CursorHold * silent call CocActionAsync('highlight')
+autocmd CursorHold * silent call CocActionAsync('highlight')
 nnoremap <F5> <Plug>(coc-codeaction)
 nmap <leader>gt <Plug>(coc-definition)
 nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gd <Plug>(coc-declaration)
 nmap <leader>gf <Plug>(coc-references)
 nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>f <Plug>(coc-format-selected)
+xmap <leader>f <Plug>(coc-format-selected)
 nmap <leader>k :call CocAction('doHover')<CR>
 nmap <leader>rn <Plug>(coc-rename)
 
