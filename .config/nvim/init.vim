@@ -38,7 +38,7 @@ hi PmenuSel ctermbg=lightgray guibg=#303030
 
 set list
 set listchars=tab:»\ ,extends:»,precedes:«,trail:·
-set statusline=%<%f\ %y%h%m%r\ %{coc#status()}%{get(b:,'coc_current_function','')}%=%-24.(%o\ %l/%L\ %c%V%)\ %P
+set statusline=%<%f\ %y%h%m%r\ %{coc#status()}\ %{get(b:,'coc_current_function','')}%=%-24.(%o\ %l/%L\ %c%V%)\ %P
 set laststatus=2
 set wildmenu
 set wildmode=longest,list
