@@ -5,6 +5,8 @@ Xft.hinting: 1
 Xft.antialias: 1
 Xft.rgba: rgb
 
+Xcursor.size: 16
+
 ! do not scroll with output
 !URxvt*scrollTtyOutput: false
 
