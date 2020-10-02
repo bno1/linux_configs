@@ -12,3 +12,5 @@ export WINEDLLOVERRIDES="winemenubuilder.exe=d"
 
 export PAGER=less
 export EDITOR=vim
+
+export MOZ_X11_EGL=1

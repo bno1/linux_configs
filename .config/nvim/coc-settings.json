@@ -1,13 +1,6 @@
 {
     "coc.preferences.currentFunctionSymbolAutoUpdate": true,
     "languageserver": {
-        //"ccls": {
-        //    "command": "ccls",
-        //    "filetypes": ["c", "cpp", "objc", "objcpp"],
-        //    "initializationOptions": {
-        //        "completion": {"detailedLabel": false}
-        //    }
-        //},
         "clangd": {
             "command": "clangd",
             "args": ["--background-index", "--clang-tidy", "--header-insertion=never",
@@ -50,68 +43,6 @@
             "settings": {
                 "gopls": {
                     "completeUnimported": true
-                }
-            }
-        },
-        "python": {
-            "command": "python",
-            "args": [
-                "-mpyls"
-            ],
-            "filetypes": ["python"],
-            "settings": {
-                "pyls": {
-                    "enable": true,
-                    "commandPath": "",
-                    "configurationSources": [
-                        "pycodestyle"
-                    ],
-                    "plugins": {
-                        "jedi_completion": {
-                            "enabled": true
-                        },
-                        "jedi_hover": {
-                            "enabled": true
-                        },
-                        "jedi_references": {
-                            "enabled": true
-                        },
-                        "jedi_signature_help": {
-                            "enabled": true
-                        },
-                        "jedi_symbols": {
-                            "enabled": true,
-                            "all_scopes": true
-                        },
-                        "mccabe": {
-                            "enabled": true,
-                            "threshold": 15
-                        },
-                        "preload": {
-                            "enabled": true
-                        },
-                        "pycodestyle": {
-                            "enabled": true
-                        },
-                        "pydocstyle": {
-                            "enabled": false,
-                            "match": "(?!test_).*\\.py",
-                            "matchDir": "[^\\.].*"
-                        },
-                        "pyflakes": {
-                            "enabled": true
-                        },
-                        "rope_completion": {
-                            "enabled": true
-                        },
-                        "yapf": {
-                            "enabled": true
-                        },
-                        "pylint": {
-                            "enabled": true,
-                            "args": [""]
-                        }
-                    }
                 }
             }
         }
