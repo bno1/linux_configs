@@ -91,6 +91,7 @@ nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gd <Plug>(coc-declaration)
 nmap <leader>gf <Plug>(coc-references)
 nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>F <Plug>(coc-format)
 nmap <leader>f <Plug>(coc-format-selected)
 xmap <leader>f <Plug>(coc-format-selected)
 nmap <leader>k :call CocAction('doHover')<CR>
