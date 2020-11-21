@@ -118,6 +118,7 @@ let g:syntastic_ocaml_checkers = ['merlin']
 let g:syntastic_c_checkers = []
 let g:syntastic_cpp_checkers = []
 let g:syntastic_rust_checkers = []
+let g:syntastic_javascript_checkers = ['eslint']
 
 
 """""""""""""
