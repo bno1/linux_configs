@@ -1,4 +1,4 @@
 .tmux/local.conf
 .vim/plugged
-.vim/.netrwhist
 .vim/view
+.netrwhist

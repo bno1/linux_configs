@@ -1,4 +1,5 @@
 set nocompatible
+set termguicolors
 
 syntax on
 filetype on
@@ -80,9 +81,25 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'kevinoid/vim-jsonc'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
 " Initialize plugin system
 call plug#end()
+
+"""""""""
+" CtrlP "
+"""""""""
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\v[\/](\.(git|hg|svn))|node_modules$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+"""""""
+" CoC "
+"""""""
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 nnoremap <F5> <Plug>(coc-codeaction)
@@ -148,10 +165,6 @@ let g:vista_stay_on_open = 0
 
 " Ensure you have installed some decent font to show these pretty symbols, then you can enable icon for the kind.
 let g:vista#renderer#enable_icon = 0
-
-function! NearestMethodOrFunction() abort
-  return get(b:, 'vista_nearest_method_or_function', '')
-endfunction
 
 nmap <F8> :Vista<CR>
 

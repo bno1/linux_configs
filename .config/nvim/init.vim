@@ -81,9 +81,25 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'kevinoid/vim-jsonc'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
 " Initialize plugin system
 call plug#end()
+
+"""""""""
+" CtrlP "
+"""""""""
+
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\v[\/](\.(git|hg|svn))|node_modules$',
+  \ 'file': '\v\.(exe|so|dll)$',
+  \ 'link': 'some_bad_symbolic_links',
+  \ }
+
+"""""""
+" CoC "
+"""""""
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 nnoremap <F5> <Plug>(coc-codeaction)
