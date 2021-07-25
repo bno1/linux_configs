@@ -27,6 +27,10 @@ echo "Replacing $HOME/.config/nvim"
 rm -rfIv "$HOME/.config/nvim"
 ln -fiTnsv "$SRCPATH/.config/nvim" "$HOME/.config/nvim"
 
+echo "Replacing $HOME/.config/ranger"
+rm -rfIv "$HOME/.config/ranger"
+ln -fiTnsv "$SRCPATH/.config/ranger" "$HOME/.config/ranger"
+
 echo "Replacing $HOME/.tmux"
 rm -rfIv "$HOME/.tmux"
 ln -fiTnsv "$SRCPATH/.tmux" "$HOME/.tmux"

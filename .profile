@@ -11,6 +11,4 @@ export RUST_SRC_PATH
 export WINEDLLOVERRIDES="winemenubuilder.exe=d"
 
 export PAGER=less
-export EDITOR=vim
-
-export MOZ_X11_EGL=1
+export EDITOR=nvim
