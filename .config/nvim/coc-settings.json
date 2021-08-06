@@ -56,5 +56,6 @@
       "args": ["start"],
       "filetypes": ["sh"]
     }
-  }
+  },
+  "python.formatting.provider": "black"
 }

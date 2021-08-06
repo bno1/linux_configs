@@ -4,6 +4,7 @@ set termguicolors
 syntax on
 filetype on
 filetype plugin on
+filetype plugin indent on
 set encoding=utf-8
 
 colorscheme desert
@@ -13,7 +14,6 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set colorcolumn=80
-set smartindent
 set autoindent
 set expandtab
 set noshowmatch
@@ -198,7 +198,7 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
   indent = {
-    enable = true,
+    enable = false,
   },
 }
 EOF
