@@ -93,6 +93,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'tikhomirov/vim-glsl'
 
 " Initialize plugin system
 call plug#end()
@@ -121,6 +122,7 @@ nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>a <Plug>(coc-codeaction)
 nmap <leader>F <Plug>(coc-format)
 nmap <leader>f <Plug>(coc-format-selected)
+xmap <leader>f <Plug>(coc-format-selected)
 nmap <leader>k :call CocAction('doHover')<CR>
 nmap <leader>rn <Plug>(coc-rename)
 

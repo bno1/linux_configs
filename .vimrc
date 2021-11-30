@@ -83,6 +83,7 @@ Plug 'liuchengxu/vista.vim'
 Plug 'kevinoid/vim-jsonc'
 Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
+Plug 'tikhomirov/vim-glsl'
 
 " Initialize plugin system
 call plug#end()
