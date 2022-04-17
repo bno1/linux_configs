@@ -71,7 +71,7 @@ call plug#begin(stdpath('data') . '/plugged')
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-syntastic/syntastic'
-Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'embear/vim-localvimrc'
 "Plug 'jeetsukumaran/vim-buffergator'
@@ -80,7 +80,8 @@ Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'rust-lang/rust.vim'
-Plug 'thaerkh/vim-indentguides'
+Plug 'lukas-reineke/indent-blankline.nvim'
+"Plug 'thaerkh/vim-indentguides'
 "Plug 'junegunn/fzf'
 "Plug 'junegunn/fzf.vim'
 "Plug 'liuchengxu/vista.vim'
@@ -93,6 +94,8 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'fannheyward/telescope-coc.nvim'
 Plug 'tikhomirov/vim-glsl'
 
 " Initialize plugin system
@@ -114,11 +117,11 @@ let g:ctrlp_custom_ignore = {
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 nnoremap <F5> <Plug>(coc-codeaction)
-nmap <leader>gt <Plug>(coc-definition)
-nmap <leader>gi <Plug>(coc-implementation)
-nmap <leader>gd <Plug>(coc-declaration)
-nmap <leader>gf <Plug>(coc-references)
-nmap <leader>gy <Plug>(coc-type-definition)
+" nmap <leader>gt <Plug>(coc-definition)
+" nmap <leader>gi <Plug>(coc-implementation)
+" nmap <leader>gd <Plug>(coc-declaration)
+" nmap <leader>gf <Plug>(coc-references)
+" nmap <leader>gy <Plug>(coc-type-definition)
 nmap <leader>a <Plug>(coc-codeaction)
 nmap <leader>F <Plug>(coc-format)
 nmap <leader>f <Plug>(coc-format-selected)
@@ -192,6 +195,7 @@ let g:go_gopls_enabled = 0
 """""""""""""""""""
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
+  ensure_installed = "maintained",
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = { },  -- list of language that will be disabled
@@ -326,16 +330,22 @@ EOF
 " telescope.nvim "
 """"""""""""""""""
 lua << EOF
-local actions = require('telescope.actions')
+local telescope = require('telescope');
+local actions = require('telescope.actions');
 
-require('telescope').setup{
+telescope.load_extension('coc')
+telescope.load_extension('fzf')
+
+telescope.setup{
     defaults = {
         file_ignore_patterns = { "%.git/.*", "node%_modules/.*" },
         mappings = {
             i = {
                 ["<esc>"] = actions.close,
+                ["<C-u>"] = false,
             },
         },
+        layout_strategy = 'vertical',
     },
 }
 EOF
@@ -343,9 +353,26 @@ EOF
 " Find files using Telescope command-line sugar.
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>b <cmd>Telescope buffers<cr>
+nnoremap <leader>b <cmd>Telescope buffers theme=dropdown<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
-" nnoremap <leader>gf <cmd>Telescope lsp_references<cr>
-" nnoremap <leader>gt <cmd>Telescope lsp_definitions<cr>
-" nnoremap <leader>gy <cmd>Telescope lsp_implementations<cr>
-" nnoremap <leader>a <cmd>Telescope lsp_code_actions<cr>
+nnoremap <leader>gf <cmd>Telescope coc references<cr>
+nnoremap <leader>gt <cmd>Telescope coc definitions<cr>
+nnoremap <leader>gy <cmd>Telescope coc implementations<cr>
+nnoremap <leader>s <cmd>Telescope coc document_symbols<cr>
+nnoremap <leader>a <cmd>Telescope coc code_actions theme=cursor<cr>
+
+
+"""""""""""""""""""""""""
+" indent-blankline.nvim "
+"""""""""""""""""""""""""
+
+highlight IndentBlanklineChar guifg=#4C4C4C gui=nocombine
+
+lua << EOF
+require('indent_blankline').setup {
+    -- for example, context is off by default, use this to turn it on
+    show_current_context = true,
+    show_current_context_start = false,
+    char = '┆',
+}
+EOF
