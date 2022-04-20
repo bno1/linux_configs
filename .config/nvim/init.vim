@@ -195,7 +195,9 @@ let g:go_gopls_enabled = 0
 """""""""""""""""""
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = "maintained",
+  ensure_installed = {'c', 'cpp', 'bash', 'python', 'typescript', 'javascript',
+                      'html', 'cmake', 'dockerfile', 'go', 'haskell', 'java',
+                      'json', 'latex', 'lua', 'make', 'toml', 'yaml', 'tsx'},
   highlight = {
     enable = true,              -- false will disable the whole extension
     disable = { },  -- list of language that will be disabled
