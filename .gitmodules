@@ -12,5 +12,5 @@
 	branch = master
 [submodule ".config/nvim/autoload/vim-plug"]
 	path = .config/nvim/autoload/vim-plug
-	url = git@github.com:junegunn/vim-plug.git
+	url = https://github.com/junegunn/vim-plug
 	branch = master
