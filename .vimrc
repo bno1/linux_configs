@@ -24,7 +24,7 @@ set smartcase
 set backspace=2
 set backspace=indent,eol,start
 set nu
-set completeopt=longest,menuone
+set completeopt=longest,menuone,noselect
 "set textwidth=80
 set nofixendofline
 set updatetime=300
@@ -76,8 +76,9 @@ Plug 'solarnz/thrift.vim', {'for': 'thrift'}
 Plug 'lervag/vimtex', {'for': 'tex'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'rust-lang/rust.vim'
-Plug 'thaerkh/vim-indentguides'
-Plug 'junegunn/fzf'
+Plug 'Yggdroot/indentLine'
+"Plug 'thaerkh/vim-indentguides'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vista.vim'
 Plug 'kevinoid/vim-jsonc'
@@ -109,6 +110,7 @@ nmap <leader>gi <Plug>(coc-implementation)
 nmap <leader>gd <Plug>(coc-declaration)
 nmap <leader>gf <Plug>(coc-references)
 nmap <leader>gy <Plug>(coc-type-definition)
+nmap <leader>a <Plug>(coc-codeaction)
 nmap <leader>F <Plug>(coc-format)
 nmap <leader>f <Plug>(coc-format-selected)
 xmap <leader>f <Plug>(coc-format-selected)
@@ -174,3 +176,11 @@ nmap <F8> :Vista<CR>
 " vim-go "
 """"""""""
 let g:go_gopls_enabled = 0
+
+
+""""""""""""""
+" indentLine "
+""""""""""""""
+
+let g:indentLine_char = '┆'
+
