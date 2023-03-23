@@ -12,3 +12,6 @@ export WINEDLLOVERRIDES="winemenubuilder.exe=d"
 
 export PAGER=less
 export EDITOR=nvim
+
+export MOZ_DISABLE_RDD_SANDBOX=1
+export NVD_BACKEND=direct
