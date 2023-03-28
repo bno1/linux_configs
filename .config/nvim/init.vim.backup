@@ -49,7 +49,6 @@ set wildmode=longest,list
 
 let maplocalleader = "\\"
 let no_ocaml_maps=1
-let g:vimsyn_embed = 'l'
 
 nnoremap <C-Up> <c-w>k
 nnoremap <C-Down> <c-w>j
@@ -108,6 +107,7 @@ require("lazy").setup({
     { 'L3MON4D3/LuaSnip', build = 'make install_jsregexp' },
     'saadparwaiz1/cmp_luasnip',
     'ray-x/lsp_signature.nvim',
+    'folke/neodev.nvim',
     'nvim-lua/popup.nvim',
     'nvim-lua/plenary.nvim',
     'nvim-telescope/telescope.nvim',
@@ -289,10 +289,13 @@ local has_words_before = function()
     return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+local neodev = require('neodev')
 local cmp = require('cmp')
 local lspconfig = require('lspconfig')
 local luasnip = require('luasnip')
 local lsp_signature = require('lsp_signature')
+
+neodev.setup({})
 
 cmp.setup({
     snippet = {
@@ -363,7 +366,7 @@ cmp.setup.cmdline(':', {
 })
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
-local servers = { 'pyright', 'tsserver', 'bashls' }
+local servers = { 'pyright', 'tsserver', 'bashls', 'lua_ls' }
 for _, lsp in ipairs(servers) do
     lspconfig[lsp].setup {
         capabilities = capabilities,
@@ -500,3 +503,11 @@ require('indent_blankline').setup {
     char = '┆',
 }
 EOF
+
+
+""""""""""""""
+" localvimrc "
+""""""""""""""
+let g:localvimrc_sandbox = 0
+let g:localvimrc_whitelist = [
+\ ]

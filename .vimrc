@@ -184,3 +184,10 @@ let g:go_gopls_enabled = 0
 
 let g:indentLine_char = '┆'
 
+
+""""""""""""""
+" localvimrc "
+""""""""""""""
+let g:localvimrc_sandbox = 0
+let g:localvimrc_whitelist = [
+\ ]
