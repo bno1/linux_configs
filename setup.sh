@@ -31,6 +31,10 @@ echo "Replacing $HOME/.config/ranger"
 rm -rfIv "$HOME/.config/ranger"
 ln -fiTnsv "$SRCPATH/.config/ranger" "$HOME/.config/ranger"
 
+echo "Replacing $HOME/.config/alacritty"
+rm -rfIv "$HOME/.config/alacritty"
+ln -fiTnsv "$SRCPATH/.config/alacritty" "$HOME/.config/alacritty"
+
 echo "Replacing $HOME/.tmux"
 rm -rfIv "$HOME/.tmux"
 ln -fiTnsv "$SRCPATH/.tmux" "$HOME/.tmux"

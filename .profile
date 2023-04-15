@@ -15,3 +15,6 @@ export EDITOR=nvim
 
 export MOZ_DISABLE_RDD_SANDBOX=1
 export NVD_BACKEND=direct
+
+export LIBVA_DRIVER_NAME=iHD
+export VDPAU_DRIVER=va_gl
