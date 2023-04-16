@@ -1,3 +1,4 @@
+#!/bin/bash
 
 # If not running interactively, don't do anything
 case $- in
@@ -6,7 +7,7 @@ case $- in
 esac
 
 if ! [[ "$(tty)" =~ /dev/tty ]] && [ -x /usr/bin/tmux ] && [ -z "${TMUX}" ]; then
-	exec /usr/bin/tmux
+    exec /usr/bin/tmux
 fi
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -38,19 +39,19 @@ force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
     else
-	color_prompt=
+    color_prompt=
     fi
 fi
 
 if [ "$color_prompt" = yes ]; then
-	export PS1="[\[$(tput sgr0)\]\[\033[38;5;10m\]\u\[$(tput sgr0)\]\[\033[0m\]@\[$(tput sgr0)\]\[\033[38;5;12m\]\h\[$(tput sgr0)\]\[\033[0m\]: \w] [\[$(tput sgr0)\]\[\033[38;5;9m\]\$?\[$(tput sgr0)\]\[\033[0m\]] \\$ \[$(tput sgr0)\]"
+    export PS1="[\[$(tput sgr0)\]\[\033[38;5;10m\]\u\[$(tput sgr0)\]\[\033[0m\]@\[$(tput sgr0)\]\[\033[38;5;12m\]\h\[$(tput sgr0)\]\[\033[0m\]: \w] [\[$(tput sgr0)\]\[\033[38;5;9m\]\$?\[$(tput sgr0)\]\[\033[0m\]] \\$ \[$(tput sgr0)\]"
 else
-	export PS1="[\u@\h: \w] [\$?] \\$ "
+    export PS1="[\u@\h: \w] [\$?] \\$ "
 fi
 unset color_prompt force_color_prompt
 
