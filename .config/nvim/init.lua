@@ -8,8 +8,6 @@ vim.cmd [[
     filetype plugin indent on
     set encoding=utf-8
 
-    colorscheme desert
-
     set signcolumn=number
     set tabstop=4
     set shiftwidth=4
@@ -21,11 +19,12 @@ vim.cmd [[
     set showcmd
     set incsearch
     set hlsearch
+    set cursorline
     set smartcase
     set backspace=2
     set backspace=indent,eol,start
     set nu
-    set completeopt=menu,menuone,noselect,preview
+    set completeopt=menu,menuone,noselect,noinsert,preview
     " set textwidth=80
     set nofixendofline
     set updatetime=300
@@ -76,6 +75,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
+    'EdenEast/nightfox.nvim',
+
     'nvim-lua/popup.nvim',
     'nvim-lua/plenary.nvim',
 
@@ -90,8 +91,9 @@ require('lazy').setup({
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
-    'hrsh7th/cmp-nvim-lsp-signature-help',
     'hrsh7th/nvim-cmp',
+
+    'ray-x/lsp_signature.nvim',
 
     { 'L3MON4D3/LuaSnip', build = 'make install_jsregexp' },
     'saadparwaiz1/cmp_luasnip',
@@ -109,6 +111,13 @@ require('lazy').setup({
     'tpope/vim-fugitive',
     'ggandor/leap.nvim',
 })
+
+------------------
+-- Color Scheme --
+------------------
+vim.cmd[[
+    colorscheme nightfox
+]]
 
 ---------------
 -- EasyAlign --
@@ -147,6 +156,7 @@ end
 local neodev = require('neodev')
 local cmp = require('cmp')
 local lspconfig = require('lspconfig')
+local lsp_signature = require('lsp_signature')
 local luasnip = require('luasnip')
 local null_ls = require('null-ls')
 
@@ -193,7 +203,7 @@ cmp.setup({
             { name = 'luasnip' }, -- For luasnip users.
             -- { name = 'ultisnips' }, -- For ultisnips users.
             -- { name = 'snippy' }, -- For snippy users.
-            { name = 'nvim_lsp_signature_help' },
+            -- { name = 'nvim_lsp_signature_help' },
         }, {
         { name = 'buffer' },
         { name = 'path' },
@@ -235,6 +245,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)
         -- Enable completion triggered by <c-x><c-o>
         vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+        lsp_signature.on_attach({
+            doc_lines = 0,
+            handler_opts = {
+                border = "rounded"
+            },
+            hint_prefix = "^ ",
+            hint_scheme = "DiagnosticHint",
+            hi_parameter = "PmenuSel",
+            max_width=4000,
+        }, ev.buf)
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions

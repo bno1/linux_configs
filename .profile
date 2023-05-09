@@ -18,7 +18,6 @@ export PAGER=less
 export EDITOR=nvim
 
 #export MOZ_DISABLE_RDD_SANDBOX=1
-export MOZ_ENABLE_WAYLAND=1
 export NVD_BACKEND=direct
 
 export LIBVA_DRIVER_NAME=iHD
