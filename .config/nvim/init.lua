@@ -74,11 +74,16 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local keymap = vim.keymap
+
 require('lazy').setup({
     'EdenEast/nightfox.nvim',
 
+    'nvim-tree/nvim-web-devicons',
     'nvim-lua/popup.nvim',
     'nvim-lua/plenary.nvim',
+    'MunifTanjim/nui.nvim',
+    'lewis6991/gitsigns.nvim',
 
     { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
 
@@ -93,12 +98,17 @@ require('lazy').setup({
     'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
 
+    'SmiteshP/nvim-navic',
+    'SmiteshP/nvim-navbuddy',
+
     'ray-x/lsp_signature.nvim',
 
     { 'L3MON4D3/LuaSnip', build = 'make install_jsregexp' },
     'saadparwaiz1/cmp_luasnip',
 
     'jose-elias-alvarez/null-ls.nvim',
+
+    'RRethy/vim-illuminate',
 
     'nvim-telescope/telescope.nvim',
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
@@ -109,7 +119,9 @@ require('lazy').setup({
     { 'fatih/vim-go', build = ':GoUpdateBinaries' },
 
     'tpope/vim-fugitive',
-    'ggandor/leap.nvim',
+    'phaazon/hop.nvim',
+
+    'freddiehaddad/feline.nvim',
 })
 
 ------------------
@@ -118,6 +130,16 @@ require('lazy').setup({
 vim.cmd[[
     colorscheme nightfox
 ]]
+
+-----------------------
+-- nvim-web-devicons --
+-----------------------
+require('nvim-web-devicons').setup {}
+
+--------------
+-- gitsigns --
+--------------
+require('gitsigns').setup {}
 
 ---------------
 -- EasyAlign --
@@ -150,12 +172,14 @@ vim.cmd [[ let g:go_gopls_enabled = 0 ]]
 local has_words_before = function()
     unpack = unpack or table.unpack
     local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
 end
 
 local neodev = require('neodev')
 local cmp = require('cmp')
 local lspconfig = require('lspconfig')
+local navic = require('nvim-navic')
+local navbuddy = require('nvim-navbuddy')
 local lsp_signature = require('lsp_signature')
 local luasnip = require('luasnip')
 local null_ls = require('null-ls')
@@ -174,7 +198,7 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        ["<Tab>"] = cmp.mapping(function(fallback)
+        ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
             -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
@@ -186,8 +210,8 @@ cmp.setup({
             else
                 fallback()
             end
-        end, { "i", "s" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
+        end, { 'i', 's' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_prev_item()
             elseif luasnip.jumpable(-1) then
@@ -195,7 +219,7 @@ cmp.setup({
             else
                 fallback()
             end
-        end, { "i", "s" }),
+        end, { 'i', 's' }),
     }),
     sources = cmp.config.sources({
             { name = 'nvim_lsp' },
@@ -233,10 +257,10 @@ cmp.setup.cmdline(':', {
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+keymap.set('n', '<space>e', vim.diagnostic.open_float)
+keymap.set('n', '[d', vim.diagnostic.goto_prev)
+keymap.set('n', ']d', vim.diagnostic.goto_next)
+keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
@@ -249,30 +273,30 @@ vim.api.nvim_create_autocmd('LspAttach', {
         lsp_signature.on_attach({
             doc_lines = 0,
             handler_opts = {
-                border = "rounded"
+                border = 'rounded'
             },
-            hint_prefix = "^ ",
-            hint_scheme = "DiagnosticHint",
-            hi_parameter = "PmenuSel",
+            hint_prefix = '^ ',
+            hint_scheme = 'DiagnosticHint',
+            hi_parameter = 'PmenuSel',
             max_width=4000,
         }, ev.buf)
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
         local opts = { buffer = ev.buf }
-        vim.keymap.set('n', '<leader>gd', vim.lsp.buf.declaration, opts)
-        --vim.keymap.set('n', '<leader>gt', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, opts)
-        --vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-        vim.keymap.set('n', '<leader>wl', function()
+        keymap.set('n', '<leader>gd', vim.lsp.buf.declaration, opts)
+        --keymap.set('n', '<leader>gt', vim.lsp.buf.definition, opts)
+        keymap.set('n', '<leader>k', vim.lsp.buf.hover, opts)
+        --keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, opts)
+        keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+        keymap.set('n', '<leader>wl', function()
             print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
         end, opts)
-        --vim.keymap.set('n', '<leader>gy', vim.lsp.buf.type_definition, opts)
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-        vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, opts)
-        --vim.keymap.set('n', '<leader>gf', vim.lsp.buf.references, opts)
-        vim.keymap.set({'n', 'v'}, '<leader>f', function()
+        --keymap.set('n', '<leader>gy', vim.lsp.buf.type_definition, opts)
+        keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+        keymap.set('n', '<leader>a', vim.lsp.buf.code_action, opts)
+        --keymap.set('n', '<leader>gf', vim.lsp.buf.references, opts)
+        keymap.set({'n', 'v'}, '<leader>f', function()
             vim.lsp.buf.format { async = true }
         end, opts)
     end,
@@ -281,7 +305,12 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local base_config = {
     capabilities = capabilities,
-    on_attach = function(client)
+    on_attach = function(client, bufnr)
+        if client.server_capabilities.documentSymbolProvider then
+            navic.attach(client, bufnr)
+            navbuddy.attach(client, bufnr)
+        end
+
         -- use eslint via null-ls for formatting instead
         if client.name == 'tsserver' then
             client.server_capabilities.documentFormattingProvider = false
@@ -356,10 +385,186 @@ require'nvim-treesitter.configs'.setup {
 }
 
 --------------------
+-- vim-illuminate --
+--------------------
+require('illuminate').configure {}
+
+----------------
+-- nvim-navic --
+----------------
+navic.setup {
+        icons = {
+        File          = '󰈙 ',
+        Module        = ' ',
+        Namespace     = '󰌗 ',
+        Package       = ' ',
+        Class         = '󰌗 ',
+        Method        = '󰆧 ',
+        Property      = ' ',
+        Field         = ' ',
+        Constructor   = ' ',
+        Enum          = '󰕘 ',
+        Interface     = '󰕘 ',
+        Function      = '󰊕 ',
+        Variable      = '󰆧 ',
+        Constant      = '󰏿 ',
+        String        = '󰀬 ',
+        Number        = '󰎠 ',
+        Boolean       = '◩ ',
+        Array         = '󰅪 ',
+        Object        = '󰅩 ',
+        Key           = '󰌋 ',
+        Null          = '󰟢 ',
+        EnumMember    = ' ',
+        Struct        = '󰌗 ',
+        Event         = ' ',
+        Operator      = '󰆕 ',
+        TypeParameter = '󰊄 ',
+    },
+    lsp = {
+        auto_attach = false,
+        preference = nil,
+    },
+    highlight = true,
+    separator = '  ',
+    depth_limit = 0,
+    depth_limit_indicator = '..',
+    safe_output = true,
+    click = false
+}
+
+-------------------
+-- nvim-navbuddy --
+-------------------
+local nvba = require('nvim-navbuddy.actions')
+navbuddy.setup {
+    window = {
+        border = 'single',
+        size = '60%',
+        position = '50%',
+        scrolloff = nil,
+        sections = {
+            left = {
+                size = '20%',
+                border = nil,
+            },
+            mid = {
+                size = '40%',
+                border = nil,
+            },
+            right = {
+                border = nil,
+                preview = 'leaf',
+            }
+        },
+    },
+    node_markers = {
+        enabled = true,
+        icons = {
+            leaf = '  ',
+            leaf_selected = ' → ',
+            branch = ' ',
+        },
+    },
+    icons = {
+        File          = '󰈙 ',
+        Module        = ' ',
+        Namespace     = '󰌗 ',
+        Package       = ' ',
+        Class         = '󰌗 ',
+        Method        = '󰆧 ',
+        Property      = ' ',
+        Field         = ' ',
+        Constructor   = ' ',
+        Enum          = '󰕘 ',
+        Interface     = '󰕘 ',
+        Function      = '󰊕 ',
+        Variable      = '󰆧 ',
+        Constant      = '󰏿 ',
+        String        = '󰀬 ',
+        Number        = '󰎠 ',
+        Boolean       = '◩ ',
+        Array         = '󰅪 ',
+        Object        = '󰅩 ',
+        Key           = '󰌋 ',
+        Null          = '󰟢 ',
+        EnumMember    = ' ',
+        Struct        = '󰌗 ',
+        Event         = ' ',
+        Operator      = '󰆕 ',
+        TypeParameter = '󰊄 ',
+    },
+    use_default_mappings = false,            -- If set to false, only mappings set
+                                            -- by user are set. Else default
+                                            -- mappings are used for keys
+                                            -- that are not set by user
+    mappings = {
+        ['<esc>'] = nvba.close(),        -- Close and cursor to original location
+        ['q'] = nvba.close(),
+
+        ['<down>'] = nvba.next_sibling(),     -- down
+        ['<up>'] = nvba.previous_sibling(), -- up
+
+        ['<left>'] = nvba.parent(),           -- Move to left panel
+        ['<right>'] = nvba.children(),         -- Move to right panel
+        ['0'] = nvba.root(),             -- Move to first panel
+
+        ['v'] = nvba.visual_name(),      -- Visual selection of name
+        ['V'] = nvba.visual_scope(),     -- Visual selection of scope
+
+        ['y'] = nvba.yank_name(),        -- Yank the name to system clipboard '+
+        ['Y'] = nvba.yank_scope(),       -- Yank the scope to system clipboard '+
+
+        -- ['i'] = nvba.insert_name(),      -- Insert at start of name
+        -- ['I'] = nvba.insert_scope(),     -- Insert at start of scope
+
+        -- ['a'] = nvba.append_name(),      -- Insert at end of name
+        -- ['A'] = nvba.append_scope(),     -- Insert at end of scope
+
+        ['r'] = nvba.rename(),           -- Rename currently focused symbol
+
+        -- ['d'] = nvba.delete(),           -- Delete scope
+
+        -- ['f'] = nvba.fold_create(),      -- Create fold of current scope
+        -- ['F'] = nvba.fold_delete(),      -- Delete fold of current scope
+
+        -- ['c'] = nvba.comment(),          -- Comment out current scope
+
+        ['<enter>'] = nvba.select(),     -- Goto selected symbol
+        ['o'] = nvba.select(),
+
+        -- ['J'] = nvba.move_down(),        -- Move focused node down
+        -- ['K'] = nvba.move_up(),          -- Move focused node up
+
+        ['t'] = nvba.telescope({         -- Fuzzy finder at current level.
+            layout_config = {               -- All options that can be
+                height = 0.60,              -- passed to telescope.nvim's
+                width = 0.60,               -- default can be passed here.
+                prompt_position = 'top',
+                preview_width = 0.50
+            },
+            layout_strategy = 'horizontal'
+        }),
+
+        ['g?'] = nvba.help(),            -- Open mappings help window
+    },
+    lsp = {
+        auto_attach = false,   -- If set to true, you don't need to manually use attach function
+        preference = nil,      -- list of lsp server names in order of preference
+    },
+    source_buffer = {
+        follow_node = true,    -- Keep the current node in focus on the source buffer
+        highlight = true,      -- Highlight the currently focused node
+        reorient = 'smart',    -- 'smart', 'top', 'mid' or 'none'
+        scrolloff = nil        -- scrolloff value when navbuddy is open
+    }
+}
+
+--------------------
 -- telescope.nvim --
 --------------------
-local telescope = require('telescope');
-local telescope_actions = require('telescope.actions');
+local telescope = require('telescope')
+local telescope_actions = require('telescope.actions')
 
 telescope.load_extension('fzf')
 telescope.load_extension('ui-select')
@@ -369,8 +574,8 @@ telescope.setup{
         file_ignore_patterns = { '%.git\\', 'node%_modules\\', '%.cache\\', '%.obj$', '%.tlog$' },
         mappings = {
             i = {
-                ["<esc>"] = telescope_actions.close,
-                ["<C-u>"] = false,
+                ['<esc>'] = telescope_actions.close,
+                ['<C-u>'] = false,
             },
         },
         layout_strategy = 'vertical',
@@ -392,16 +597,17 @@ telescope.setup{
 
 local builtin = require('telescope.builtin')
 
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>b', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>gf', builtin.lsp_references, {})
-vim.keymap.set('n', '<leader>gt', builtin.lsp_definitions, {})
-vim.keymap.set('n', '<leader>gi', builtin.lsp_implementations, {})
-vim.keymap.set('n', '<leader>gy', builtin.lsp_type_definitions, {})
-vim.keymap.set('n', '<leader>s', builtin.lsp_document_symbols, {})
---vim.keymap.set('n', '<leader>a', builtin.lsp_code_actions, {})
+keymap.set('n', '<leader>ff', builtin.find_files, {})
+keymap.set('n', '<leader>fg', builtin.live_grep, {})
+keymap.set('n', '<leader>b', builtin.buffers, {})
+keymap.set('n', '<leader>fh', builtin.help_tags, {})
+keymap.set('n', '<leader>gf', builtin.lsp_references, {})
+keymap.set('n', '<leader>gt', builtin.lsp_definitions, {})
+keymap.set('n', '<leader>gi', builtin.lsp_implementations, {})
+keymap.set('n', '<leader>gy', builtin.lsp_type_definitions, {})
+keymap.set('n', '<leader>s', builtin.lsp_document_symbols, {})
+keymap.set('n', '<leader>v', navbuddy.open, {})
+--keymap.set('n', '<leader>a', builtin.lsp_code_actions, {})
 
 ---------------------------
 -- indent-blankline.nvim --
@@ -417,10 +623,45 @@ require('indent_blankline').setup {
     char = '┆',
 }
 
----------------
--- leap.nvim --
----------------
-require('leap').add_default_mappings()
+--------------
+-- hop.nvim --
+--------------
+local hop = require('hop')
+local hopdir = require('hop.hint').HintDirection
+
+hop.setup()
+
+keymap.set('', 'f', function()
+  hop.hint_char1({ direction = hopdir.AFTER_CURSOR, current_line_only = true })
+end, {remap=true})
+keymap.set('', 'F', function()
+  hop.hint_char1({ direction = hopdir.BEFORE_CURSOR, current_line_only = true })
+end, {remap=true})
+keymap.set('', 't', function()
+  hop.hint_char1({ direction = hopdir.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
+end, {remap=true})
+keymap.set('', 'T', function()
+  hop.hint_char1({ direction = hopdir.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
+end, {remap=true})
+keymap.set('', 's', function()
+    hop.hint_words()
+end, {remap=true})
+
+-----------------
+-- feline.nvim --
+-----------------
+local feline = require('feline');
+
+local winbar = { active = { {}, {} } }
+
+table.insert(winbar.active[1], {
+    provider = navic.get_location,
+    enabled = navic.is_available,
+})
+
+feline.setup {}
+feline.winbar.setup { components = winbar }
+-- feline.statuscolumn.setup {}
 
 ----------------
 -- localvimrc --
