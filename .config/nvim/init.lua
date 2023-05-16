@@ -8,7 +8,7 @@ vim.cmd [[
     filetype plugin indent on
     set encoding=utf-8
 
-    set signcolumn=number
+    set signcolumn=auto
     set tabstop=4
     set shiftwidth=4
     set softtabstop=4
@@ -116,7 +116,6 @@ require('lazy').setup({
 
     'folke/neodev.nvim',
     { 'lervag/vimtex', ft = 'tex'},
-    { 'fatih/vim-go', build = ':GoUpdateBinaries' },
 
     'tpope/vim-fugitive',
     'phaazon/hop.nvim',
@@ -161,11 +160,6 @@ vim.cmd [[
     \ }
 ]]
 
-------------
--- vim-go --
-------------
-vim.cmd [[ let g:go_gopls_enabled = 0 ]]
-
 ---------
 -- LSP --
 ---------
@@ -187,6 +181,7 @@ local null_ls = require('null-ls')
 neodev.setup {}
 
 cmp.setup({
+    preselect = cmp.PreselectMode.None,
     snippet = {
         expand = function(args)
             luasnip.lsp_expand(args.body) -- For `luasnip` users.
@@ -267,8 +262,21 @@ keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup('UserLspConfig', {}),
     callback = function(ev)
+        local bufnr = ev.buf
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+
+        if client.server_capabilities.documentSymbolProvider then
+            navic.attach(client, bufnr)
+            navbuddy.attach(client, bufnr)
+        end
+
+        -- use eslint via null-ls for formatting instead
+        if client.name == 'tsserver' then
+            client.server_capabilities.documentFormattingProvider = false
+        end
+
         -- Enable completion triggered by <c-x><c-o>
-        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+        vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
 
         lsp_signature.on_attach({
             doc_lines = 0,
@@ -279,11 +287,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
             hint_scheme = 'DiagnosticHint',
             hi_parameter = 'PmenuSel',
             max_width=4000,
-        }, ev.buf)
+        }, bufnr)
 
         -- Buffer local mappings.
         -- See `:help vim.lsp.*` for documentation on any of the below functions
-        local opts = { buffer = ev.buf }
+        local opts = { buffer = bufnr }
         keymap.set('n', '<leader>gd', vim.lsp.buf.declaration, opts)
         --keymap.set('n', '<leader>gt', vim.lsp.buf.definition, opts)
         keymap.set('n', '<leader>k', vim.lsp.buf.hover, opts)
@@ -296,8 +304,28 @@ vim.api.nvim_create_autocmd('LspAttach', {
         keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
         keymap.set('n', '<leader>a', vim.lsp.buf.code_action, opts)
         --keymap.set('n', '<leader>gf', vim.lsp.buf.references, opts)
-        keymap.set({'n', 'v'}, '<leader>f', function()
+        keymap.set({'n', 'v'}, '<leader>F', function()
             vim.lsp.buf.format { async = true }
+        end, opts)
+
+        keymap.set('v', '<leader>f', function()
+            if not client.server_capabilities.documentRangeFormattingProvider then
+                vim.print('Range formatting not supported')
+                return
+            end
+
+            -- Exit selection, needed to set < and > marks
+            local escKey = vim.api.nvim_replace_termcodes('<esc>', true, false, true)
+            vim.api.nvim_feedkeys(escKey, 'nx', false)
+
+            -- Get selection
+            local a = vim.api.nvim_buf_get_mark(bufnr, "<")
+            local b = vim.api.nvim_buf_get_mark(bufnr, ">")
+
+            vim.lsp.buf.format { async = true, range = { a, b } }
+
+            -- Restore selection
+            vim.api.nvim_feedkeys('gv', 'n', false)
         end, opts)
     end,
 })
@@ -305,17 +333,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local base_config = {
     capabilities = capabilities,
-    on_attach = function(client, bufnr)
-        if client.server_capabilities.documentSymbolProvider then
-            navic.attach(client, bufnr)
-            navbuddy.attach(client, bufnr)
-        end
-
-        -- use eslint via null-ls for formatting instead
-        if client.name == 'tsserver' then
-            client.server_capabilities.documentFormattingProvider = false
-        end
-    end,
 }
 
 local servers = {
@@ -330,6 +347,7 @@ local servers = {
             '--completion-style=detailed'
         },
     },
+    gopls = {},
 }
 
 for lsp, lsp_config in pairs(servers) do
@@ -358,6 +376,9 @@ null_ls.setup {
         null_ls.builtins.diagnostics.pylint,
         null_ls.builtins.formatting.isort,
         null_ls.builtins.formatting.black,
+
+        -- go
+        null_ls.builtins.diagnostics.golangci_lint,
     },
 }
 
