@@ -1,6 +1,6 @@
 [MESSAGE CONTROL]
 
-disable=missing-docstring,bad-continuation,invalid-name,bad-whitespace
+disable=missing-docstring,invalid-name
 
 [FORMAT]
 

@@ -67,6 +67,7 @@ esac
 alias less='less -SN'
 alias ssh_dontcare='ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
 alias scp_dontcare='scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
+alias rebuildpkg='makepkg --noextract --noprepare'
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then

@@ -38,7 +38,7 @@ vim.cmd [[
     endif
 
     set list
-    set listchars=tab:»\ ,extends:»,precedes:«,trail:·
+    set listchars=tab:¦\ ,extends:»,precedes:«,trail:·
     set statusline=%<%f\ %y%h%m%r%=%{FugitiveStatusline()}\ %-24.(%o\ %l/%L\ %c%V%)\ %P
     set laststatus=2
     set wildmenu
@@ -63,14 +63,14 @@ vim.cmd [[
 
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/folke/lazy.nvim.git',
-    '--branch=stable', -- latest stable release
-    lazypath,
-  })
+    vim.fn.system({
+        'git',
+        'clone',
+        '--filter=blob:none',
+        'https://github.com/folke/lazy.nvim.git',
+        '--branch=stable', -- latest stable release
+        lazypath,
+    })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -103,7 +103,7 @@ require('lazy').setup({
 
     'ray-x/lsp_signature.nvim',
 
-    { 'L3MON4D3/LuaSnip', build = 'make install_jsregexp' },
+    { 'L3MON4D3/LuaSnip',                build = 'make install_jsregexp' },
     'saadparwaiz1/cmp_luasnip',
 
     'jose-elias-alvarez/null-ls.nvim',
@@ -115,7 +115,7 @@ require('lazy').setup({
     'nvim-telescope/telescope-ui-select.nvim',
 
     'folke/neodev.nvim',
-    { 'lervag/vimtex', ft = 'tex'},
+    { 'lervag/vimtex',                            ft = 'tex' },
 
     'tpope/vim-fugitive',
     'phaazon/hop.nvim',
@@ -126,7 +126,7 @@ require('lazy').setup({
 ------------------
 -- Color Scheme --
 ------------------
-vim.cmd[[
+vim.cmd [[
     colorscheme nightfox
 ]]
 
@@ -172,6 +172,7 @@ end
 local neodev = require('neodev')
 local cmp = require('cmp')
 local lspconfig = require('lspconfig')
+local lsputil = require('lspconfig.util')
 local navic = require('nvim-navic')
 local navbuddy = require('nvim-navbuddy')
 local lsp_signature = require('lsp_signature')
@@ -196,8 +197,8 @@ cmp.setup({
         ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
                 cmp.select_next_item()
-            -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
-            -- they way you will only jump inside the snippet region
+                -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
+                -- they way you will only jump inside the snippet region
             elseif luasnip.expand_or_jumpable() then
                 luasnip.expand_or_jump()
             elseif has_words_before() then
@@ -217,13 +218,13 @@ cmp.setup({
         end, { 'i', 's' }),
     }),
     sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            -- { name = 'vsnip' }, -- For vsnip users.
-            { name = 'luasnip' }, -- For luasnip users.
-            -- { name = 'ultisnips' }, -- For ultisnips users.
-            -- { name = 'snippy' }, -- For snippy users.
-            -- { name = 'nvim_lsp_signature_help' },
-        }, {
+        { name = 'nvim_lsp' },
+        -- { name = 'vsnip' }, -- For vsnip users.
+        { name = 'luasnip' }, -- For luasnip users.
+        -- { name = 'ultisnips' }, -- For ultisnips users.
+        -- { name = 'snippy' }, -- For snippy users.
+        -- { name = 'nvim_lsp_signature_help' },
+    }, {
         { name = 'buffer' },
         { name = 'path' },
     }),
@@ -270,8 +271,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
             navbuddy.attach(client, bufnr)
         end
 
-        -- use eslint via null-ls for formatting instead
         if client.name == 'tsserver' then
+            -- use eslint via null-ls for formatting instead
             client.server_capabilities.documentFormattingProvider = false
         end
 
@@ -286,7 +287,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
             hint_prefix = '^ ',
             hint_scheme = 'DiagnosticHint',
             hi_parameter = 'PmenuSel',
-            max_width=4000,
+            max_width = 4000,
         }, bufnr)
 
         -- Buffer local mappings.
@@ -304,7 +305,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
         keymap.set('n', '<leader>a', vim.lsp.buf.code_action, opts)
         --keymap.set('n', '<leader>gf', vim.lsp.buf.references, opts)
-        keymap.set({'n', 'v'}, '<leader>F', function()
+        keymap.set({ 'n', 'v' }, '<leader>F', function()
             vim.lsp.buf.format { async = true }
         end, opts)
 
@@ -337,7 +338,10 @@ local base_config = {
 
 local servers = {
     pyright = {},
-    tsserver = {},
+    tsserver = {
+        single_file_support = false,
+        root_dir = lsputil.root_pattern 'tsconfig.json',
+    },
     bashls = {},
     lua_ls = {},
     clangd = {
@@ -348,11 +352,22 @@ local servers = {
         },
     },
     gopls = {},
+    denols = {
+        root_dir = lsputil.root_pattern('deno.json', 'deno.jsonc'),
+    },
 }
 
 for lsp, lsp_config in pairs(servers) do
     local config = vim.tbl_deep_extend('force', base_config, lsp_config)
     lspconfig[lsp].setup(config)
+end
+
+local checkDeno = function(expect)
+    return {
+        condition = function(utils)
+            return utils.root_has_file('deno.json', 'deno.jsonc') == expect
+        end,
+    }
 end
 
 null_ls.setup {
@@ -362,9 +377,13 @@ null_ls.setup {
         null_ls.builtins.diagnostics.shellcheck,
 
         -- js/ts
-        null_ls.builtins.code_actions.eslint_d,
-        null_ls.builtins.diagnostics.eslint_d,
-        null_ls.builtins.formatting.eslint_d,
+        null_ls.builtins.code_actions.eslint_d.with(checkDeno(false)),
+        null_ls.builtins.diagnostics.eslint_d.with(checkDeno(false)),
+        null_ls.builtins.formatting.eslint_d.with(checkDeno(false)),
+
+        -- deno
+        null_ls.builtins.diagnostics.deno_lint.with(checkDeno(true)),
+        null_ls.builtins.formatting.deno_fmt.with(checkDeno(true)),
 
         -- c/cpp
         null_ls.builtins.diagnostics.clang_check,
@@ -389,20 +408,20 @@ null_ls.setup {
 -- See:
 --   - https://neovim.discourse.group/t/lsp-not-starting-automatically/1886/9
 --   - https://github.com/wbthomason/packer.nvim/issues/778
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = {'c', 'cpp', 'bash', 'python', 'typescript', 'javascript',
-                      'html', 'cmake', 'dockerfile', 'go', 'haskell', 'java',
-                      'json', 'latex', 'lua', 'make', 'toml', 'yaml', 'tsx'},
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-    disable = { },  -- list of language that will be disabled
-  },
-  incremental_selection = {
-    enable = false,
-  },
-  indent = {
-    enable = false,
-  },
+require 'nvim-treesitter.configs'.setup {
+    ensure_installed = { 'c', 'cpp', 'bash', 'python', 'typescript', 'javascript',
+        'html', 'cmake', 'dockerfile', 'go', 'haskell', 'java',
+        'json', 'latex', 'lua', 'make', 'toml', 'yaml', 'tsx' },
+    highlight = {
+        enable = true, -- false will disable the whole extension
+        disable = {},  -- list of language that will be disabled
+    },
+    incremental_selection = {
+        enable = false,
+    },
+    indent = {
+        enable = false,
+    },
 }
 
 --------------------
@@ -414,7 +433,7 @@ require('illuminate').configure {}
 -- nvim-navic --
 ----------------
 navic.setup {
-        icons = {
+    icons = {
         File          = '󰈙 ',
         Module        = ' ',
         Namespace     = '󰌗 ',
@@ -515,26 +534,26 @@ navbuddy.setup {
         Operator      = '󰆕 ',
         TypeParameter = '󰊄 ',
     },
-    use_default_mappings = false,            -- If set to false, only mappings set
-                                            -- by user are set. Else default
-                                            -- mappings are used for keys
-                                            -- that are not set by user
+    use_default_mappings = false, -- If set to false, only mappings set
+    -- by user are set. Else default
+    -- mappings are used for keys
+    -- that are not set by user
     mappings = {
-        ['<esc>'] = nvba.close(),        -- Close and cursor to original location
+        ['<esc>'] = nvba.close(), -- Close and cursor to original location
         ['q'] = nvba.close(),
 
-        ['<down>'] = nvba.next_sibling(),     -- down
+        ['<down>'] = nvba.next_sibling(),   -- down
         ['<up>'] = nvba.previous_sibling(), -- up
 
-        ['<left>'] = nvba.parent(),           -- Move to left panel
-        ['<right>'] = nvba.children(),         -- Move to right panel
-        ['0'] = nvba.root(),             -- Move to first panel
+        ['<left>'] = nvba.parent(),         -- Move to left panel
+        ['<right>'] = nvba.children(),      -- Move to right panel
+        ['0'] = nvba.root(),                -- Move to first panel
 
-        ['v'] = nvba.visual_name(),      -- Visual selection of name
-        ['V'] = nvba.visual_scope(),     -- Visual selection of scope
+        ['v'] = nvba.visual_name(),         -- Visual selection of name
+        ['V'] = nvba.visual_scope(),        -- Visual selection of scope
 
-        ['y'] = nvba.yank_name(),        -- Yank the name to system clipboard '+
-        ['Y'] = nvba.yank_scope(),       -- Yank the scope to system clipboard '+
+        ['y'] = nvba.yank_name(),           -- Yank the name to system clipboard '+
+        ['Y'] = nvba.yank_scope(),          -- Yank the scope to system clipboard '+
 
         -- ['i'] = nvba.insert_name(),      -- Insert at start of name
         -- ['I'] = nvba.insert_scope(),     -- Insert at start of scope
@@ -542,7 +561,7 @@ navbuddy.setup {
         -- ['a'] = nvba.append_name(),      -- Insert at end of name
         -- ['A'] = nvba.append_scope(),     -- Insert at end of scope
 
-        ['r'] = nvba.rename(),           -- Rename currently focused symbol
+        ['r'] = nvba.rename(), -- Rename currently focused symbol
 
         -- ['d'] = nvba.delete(),           -- Delete scope
 
@@ -551,33 +570,33 @@ navbuddy.setup {
 
         -- ['c'] = nvba.comment(),          -- Comment out current scope
 
-        ['<enter>'] = nvba.select(),     -- Goto selected symbol
+        ['<enter>'] = nvba.select(), -- Goto selected symbol
         ['o'] = nvba.select(),
 
         -- ['J'] = nvba.move_down(),        -- Move focused node down
         -- ['K'] = nvba.move_up(),          -- Move focused node up
 
-        ['t'] = nvba.telescope({         -- Fuzzy finder at current level.
-            layout_config = {               -- All options that can be
-                height = 0.60,              -- passed to telescope.nvim's
-                width = 0.60,               -- default can be passed here.
+        ['t'] = nvba.telescope({ -- Fuzzy finder at current level.
+            layout_config = {    -- All options that can be
+                height = 0.60,   -- passed to telescope.nvim's
+                width = 0.60,    -- default can be passed here.
                 prompt_position = 'top',
                 preview_width = 0.50
             },
             layout_strategy = 'horizontal'
         }),
 
-        ['g?'] = nvba.help(),            -- Open mappings help window
+        ['g?'] = nvba.help(), -- Open mappings help window
     },
     lsp = {
-        auto_attach = false,   -- If set to true, you don't need to manually use attach function
-        preference = nil,      -- list of lsp server names in order of preference
+        auto_attach = false, -- If set to true, you don't need to manually use attach function
+        preference = nil,    -- list of lsp server names in order of preference
     },
     source_buffer = {
-        follow_node = true,    -- Keep the current node in focus on the source buffer
-        highlight = true,      -- Highlight the currently focused node
-        reorient = 'smart',    -- 'smart', 'top', 'mid' or 'none'
-        scrolloff = nil        -- scrolloff value when navbuddy is open
+        follow_node = true, -- Keep the current node in focus on the source buffer
+        highlight = true,   -- Highlight the currently focused node
+        reorient = 'smart', -- 'smart', 'top', 'mid' or 'none'
+        scrolloff = nil     -- scrolloff value when navbuddy is open
     }
 }
 
@@ -590,7 +609,7 @@ local telescope_actions = require('telescope.actions')
 telescope.load_extension('fzf')
 telescope.load_extension('ui-select')
 
-telescope.setup{
+telescope.setup {
     defaults = {
         file_ignore_patterns = { '%.git\\', 'node%_modules\\', '%.cache\\', '%.obj$', '%.tlog$' },
         mappings = {
@@ -637,11 +656,9 @@ vim.cmd [[
     highlight IndentBlanklineChar guifg=#4C4C4C gui=nocombine
 ]]
 
-require('indent_blankline').setup {
-    -- for example, context is off by default, use this to turn it on
-    show_current_context = true,
-    show_current_context_start = false,
-    char = '┆',
+require('ibl').setup {
+    indent = { char = '¦', tab_char = '¦' },
+    scope = { enabled = true, show_start = true }
 }
 
 --------------
@@ -653,20 +670,23 @@ local hopdir = require('hop.hint').HintDirection
 hop.setup()
 
 keymap.set('', 'f', function()
-  hop.hint_char1({ direction = hopdir.AFTER_CURSOR, current_line_only = true })
-end, {remap=true})
+    hop.hint_char1({ direction = hopdir.AFTER_CURSOR, current_line_only = true })
+end, { remap = true })
 keymap.set('', 'F', function()
-  hop.hint_char1({ direction = hopdir.BEFORE_CURSOR, current_line_only = true })
-end, {remap=true})
+    hop.hint_char1({ direction = hopdir.BEFORE_CURSOR, current_line_only = true })
+end, { remap = true })
 keymap.set('', 't', function()
-  hop.hint_char1({ direction = hopdir.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
-end, {remap=true})
+    hop.hint_char1({ direction = hopdir.AFTER_CURSOR, current_line_only = true, hint_offset = -1 })
+end, { remap = true })
 keymap.set('', 'T', function()
-  hop.hint_char1({ direction = hopdir.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
-end, {remap=true})
+    hop.hint_char1({ direction = hopdir.BEFORE_CURSOR, current_line_only = true, hint_offset = 1 })
+end, { remap = true })
 keymap.set('', 's', function()
     hop.hint_words()
-end, {remap=true})
+end, { remap = true })
+keymap.set('', 'S', function()
+    hop.hint_anywhere()
+end, { remap = true })
 
 -----------------
 -- feline.nvim --
