@@ -6,7 +6,7 @@ case $- in
       *) return;;
 esac
 
-if ! [[ "$(tty)" =~ /dev/tty ]] && [ -x /usr/bin/tmux ] && [ -z "${TMUX}" ]; then
+if ! [[ "$(tty)" =~ /dev/tty ]] && [ -x /usr/bin/tmux ] && [ -z "${TMUX}" ] && [ -z "${NOTMUX}" ]; then
     exec /usr/bin/tmux
 fi
 
@@ -110,4 +110,8 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
+fi
+
+if [ -x /usr/bin/direnv ]; then
+    eval "$(direnv hook bash)"
 fi
