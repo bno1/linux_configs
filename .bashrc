@@ -69,6 +69,13 @@ alias ssh_dontcare='ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/nul
 alias scp_dontcare='scp -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null'
 alias rebuildpkg='makepkg --noextract --noprepare'
 
+alias yarn="corepack yarn"
+alias yarnpkg="corepack yarnpkg"
+alias pnpm="corepack pnpm"
+alias pnpx="corepack pnpx"
+alias npm="corepack npm"
+alias npx="corepack npx"
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -115,3 +122,5 @@ fi
 if [ -x /usr/bin/direnv ]; then
     eval "$(direnv hook bash)"
 fi
+
+eval "$(fzf --bash)"
